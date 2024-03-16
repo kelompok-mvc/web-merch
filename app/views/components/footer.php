@@ -145,6 +145,7 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./vendor/dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
 <script src="./vendor/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062" defer></script>
 <script src="./vendor/dist/libs/jsvectormap/dist/maps/world.js?1684106062" defer></script>
@@ -152,6 +153,7 @@
 <!-- Tabler Core -->
 <script src="./vendor/dist/js/tabler.min.js?1684106062" defer></script>
 <script src="./vendor/dist/js/demo.min.js?1684106062" defer></script>
+<script src="<?= BASEURL;?>/js/script.js"></script>
 
 
 
