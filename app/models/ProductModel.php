@@ -20,16 +20,16 @@ class ProductModel
 
   public function getAllCategory()
   {
-    $this->db->query('SELECT * FROM ' . $this->table2 );
+    $this->db->query('SELECT * FROM ' . $this->table2);
     return $this->db->resultSet();
   }
 
   public function getProductById($id)
-{
+  {
     $this->db->query('SELECT * FROM ' . $this->table . ' INNER JOIN category ON product.id_category = category.id_category WHERE id_product = :id');
     $this->db->bind('id', $id);
     return $this->db->single();
-}
+  }
 
   public function addProduct($data)
   {
@@ -48,7 +48,7 @@ class ProductModel
   }
 
   public function updateProduct($data)
-{
+  {
     $query = "UPDATE $this->table SET name_product = :name_product, id_category = :id_category, description = :description, price = :price, stock = :stock WHERE id_product = :id";
 
     $this->db->query($query);
@@ -62,7 +62,7 @@ class ProductModel
     $this->db->execute();
 
     return $this->db->rowCount();
-}
+  }
 
 
   public function deleteProduct($id)
