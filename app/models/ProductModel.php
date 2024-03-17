@@ -76,5 +76,3 @@ class ProductModel
     return $this->db->rowCount();
   }
 }
-
-?>
