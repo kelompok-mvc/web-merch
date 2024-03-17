@@ -1,3 +1,6 @@
+<?php
+
+?>
 <div class="">
   <div class="mb-4">
     <form action="<?= BASEURL; ?>/transaksi/add" method="post" class="row">
@@ -60,7 +63,7 @@
               </td>
 
               <td>
-                <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/transaksi/delete/<?= $order['id_order']; ?>" onclick="return confirm('Apakah Kamu Yakin Menghapus Product <?= $order['name_product']; ?>')">Delete</a>
+                <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/transaksi/delete/<?= $order['id_order']; ?>" onclick="deleteOrder(<?= $order['id_order']; ?>, '<?= $data['kode']; ?>', '<?= $order['name_product']; ?>'); return false;">Delete</a>
               </td>
             </tr>
           <?php $number++;
@@ -76,29 +79,33 @@
     </div>
   </div>
 
-  <div class="container mt-5">
-    <h1>Form Pembayaran</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="namaMember" class="form-label">Nama Member</label>
-          <select class="form-select" name="id_customer" required>
-            <?php foreach ($data['customers'] as $customer) : ?>
-              <option value='<?= $customer['id_customer'] ?>'><?= $customer['name_customer'] ?></option>
-            <?php endforeach ?>
-          </select>
+  <form action="<?= BASEURL; ?>/transaksi/addTransaction" method="post" class="row">
+    <div class="container mt-5">
+      <h1>Form Pembayaran</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="namaMember" class="form-label">Nama Member</label>
+            <select class="form-select" name="id_customer" required>
+              <?php foreach ($data['customers'] as $customer) : ?>
+                <option value='<?= $customer['id_customer'] ?>'><?= $customer['name_customer'] ?></option>
+              <?php endforeach ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="totalHargaPayment" class="form-label">Total Harga</label>
+            <input type="text" class="form-control" id="totalHargaPayment" name="total" value="" readonly>
+          </div>
+          <input type="hidden" name="kode_penjualan" value="<?= $data['kode'] ?>">
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" id="btnBayar">Bayar</button>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="totalHargaPayment" class="form-label">Total Harga</label>
-          <input type="text" class="form-control" id="totalHargaPayment" value="" readonly>
-        </div>        
-        <div class="d-grid gap-2">
-          <button type="button" class="btn btn-primary" id="btnBayar">Bayar</button>
-        </div>
+  
       </div>
-      
     </div>
-  </div>
+
+  </form>
 
   <script>
     // Fungsi untuk menghitung total harga
@@ -127,4 +134,24 @@
     document.querySelectorAll("input[name='qty']").forEach(function(input) {
       input.addEventListener("change", hitungTotalHarga);
     });
+  </script>
+  <script>
+    function deleteOrder(orderId, kodePenjualan, productName) {
+      if (confirm(`Apakah Kamu Yakin Menghapus Product ${productName}`)) {
+        fetch(`<?= BASEURL; ?>/transaksi/delete/${orderId}?kode_penjualan=${kodePenjualan}`, {
+            method: 'GET',
+          })
+          .then(response => {
+            if (response.ok) {
+              location.reload(); // Reload halaman setelah penghapusan berhasil
+            } else {
+              alert('Gagal menghapus product.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus product.');
+          });
+      }
+    }
   </script>

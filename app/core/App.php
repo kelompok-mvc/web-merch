@@ -7,7 +7,8 @@ class App{
 
     public function __construct()
     {
-        
+        // $kode = $this->parseURL();        
+        // var_dump($kode[1]);
         $url = $this->parseURL();
         if (isset($url[0])) {
             if( file_exists('../app/controllers/' . $url[0] . '.php')){

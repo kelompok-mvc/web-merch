@@ -55,6 +55,20 @@ class TransaksiModel
 
         return $this->db->rowCount();
     }
+    
+    public function addTransaction($data)
+    {
+        $query = "INSERT INTO $this->table (kode_penjualan, id_customer, total, transaction_date) VALUES (:kode_penjualan, :id_customer, :total, NOW())";
+
+        $this->db->query($query);        
+        $this->db->bind('kode_penjualan', $data['kode_penjualan']);
+        $this->db->bind('id_customer', $data['id_customer']);
+        $this->db->bind('total', $data['total']);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
 
     public function getUser($username, $password)
     {

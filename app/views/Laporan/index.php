@@ -21,37 +21,22 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Name Pembeli</th>
                                 <th scope="col">Tanggal Pembelian</th>
-                                <th scope="col">Total Harga</th>
-                                <th scope="col">Admin</th>
+                                <th scope="col">Total Belanja</th>                                
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody class="table-tbody">
-                            <tr>
-                                <td scope="row">1</td>
-                                <td scope="row">Justin Biber</td>
-                                <td scope="row">15 - Maret - 2004</td>
-                                <td scope="row">Rp. 400.000,00-</td>
-                                <td class="sort-type">Hybrid</td>
-                                <td>
-                                    <a style="margin-bottom: 2px;" class="btn btn-info btn-sm py-1 px-2"
-                                        href="<?= BASEURL; ?>/laporan/detail">Detail</a>
-                                </td>
-                            </tr>
-                        <tbody class="table-tbody">
-                            <tr>
-                                <td scope="row">2</td>
-                                <td scope="row">The Rock</td>
-                                <td scope="row">15 - Mei - 2004</td>
-                                <td scope="row">Rp. 400.400,00-</td>
-                                <td class="sort-type">Huda</td>
-                                <td>
-                                    <a style="margin-bottom: 2px;" class="btn btn-info btn-sm py-1 px-2"
-                                        href="">Detail</a>
-                                </td>
-                            </tr>
-
-
+                            <?php $number = 1;
+                            foreach ($data['laporan'] as $row) : ?>
+                                <tr>
+                                    <td><?= $number?></td>
+                                    <td><?= $row['name_customer']?></td>
+                                    <td><?= $row['transaction_date']?></td>
+                                    <td>Rp<?= $row['total']?></td>
+                                </tr>
+                            <?php $number++;
+                            endforeach ?>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -64,21 +49,15 @@
         <div class="row text-center align-items-center flex-row-reverse">
             <div class="col-lg-auto ms-lg-auto">
                 <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary"
-                            rel="noopener">Documentation</a></li>
+                    <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
                     <li class="list-inline-item"><a href="./license.html" class="link-secondary">License</a></li>
-                    <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank"
-                            class="link-secondary" rel="noopener">Source code</a></li>
+                    <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
                     <li class="list-inline-item">
-                        <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary"
-                            rel="noopener">
+                        <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
                             <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
                             </svg>
                             Sponsor
                         </a>
