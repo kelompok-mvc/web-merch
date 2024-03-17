@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <?php Flasher::flash()?>
+            <?php Flasher::flash() ?>
         </div>
     </div>
 
@@ -24,21 +24,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data['membership'] as $key => $membership)  :?>
-                    <tr>
-                        <th scope="row"><?= ($key + 1); ?></th>
-                        <td><?= $membership['type']; ?></td>
-                        <td><?= $membership['discon']; ?></td>
-                        <td>
-                            <a style="margin-bottom: 2px;" class="btn btn-success btn-sm py-1 px-2 halUpdate"
-                                href="<?= BASEURL; ?>/membership/edit/<?= $membership['id_membership']; ?>"
-                                data-id="<?= $membership['id_membership']?>">Edit</a>
+                    <?php foreach ($data['membership'] as $key => $membership) : ?>
+                        <tr>
+                            <th scope="row"><?= ($key + 1); ?></th>
+                            <td><?= $membership['type']; ?></td>
+                            <td><?= $membership['discon']; ?></td>
+                            <td>
+                                <a style="margin-bottom: 2px;" class="btn btn-success btn-sm py-1 px-2 halUpdate" href="<?= BASEURL; ?>/membership/edit/<?= $membership['id_membership']; ?>" data-id="<?= $membership['id_membership'] ?>">Edit</a>
 
-                            <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2"
-                                href="<?= BASEURL; ?>/membership/delete/<?= $membership['id_membership']; ?>"
-                                onclick="return confirm('Apakah Kamu Yakin Menghapus Data <?= $membership['type']; ?>')">Delete</a>
-                        </td>
-                    </tr>
+                                <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/membership/delete/<?= $membership['id_membership']; ?>" onclick="return confirm('Apakah Kamu Yakin Menghapus Data <?= $membership['type']; ?>')">Delete</a>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -60,14 +56,12 @@
 
                     <div class=" mb-2">
                         <label class="form-label required" for="type">Tipe membership</label>
-                        <input type="text" id="membership" name="membership" class="form-control"
-                            placeholder="Masukkan Membership" required>
+                        <input type="text" id="type" name="type" class="form-control" placeholder="Masukkan Membership" required>
                     </div>
 
                     <div class=" mb-2">
                         <label class="form-label required" for="discon">Diskon</label>
-                        <input type="text" id="discon" name="discon" class="form-control" placeholder="Masukkan Diskon"
-                            required>
+                        <input type="text" id="discon" name="discon" class="form-control" placeholder="Masukkan Diskon" required>
                     </div>
 
             </div>
