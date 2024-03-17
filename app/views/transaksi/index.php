@@ -1,31 +1,24 @@
 <div class="">
   <div class="mb-4">
     <form action="<?= BASEURL; ?>/transaksi/add" method="post" class="row">
-      <div class="col-md-6 mb-2">
-        <label class="form-label required">Barcode Barang</label>
-        <input type="text" class="form-control" name="Barcode_barang" placeholder="Masukkan Barcode Barang" required>
-      </div>
+      <label class="form-label required"><?= $data['kode'] ?></label>
       <div class="col-md-6 mb-2">
         <label class="form-label required">Barang</label>
-        <input type="text" class="form-control" name="total" placeholder="Masukkan Nama Barang" required>
-      </div>
-
-      <div class="col-md-6 mb-2">
-        <label class="form-label required">Nama Member</label>
-        <select class="form-select" name="id_member" required>
-          <option value="1">Salman</option>
-          <option value="2">Ilmi</option>
-          <option value="3">Azizi</option>
+        <select class="form-select" name="id_product" required>
+          <?php foreach ($data['product'] as $product) : ?>
+            <option value='<?= $product['id_product'] ?>'><?= $product['name_product'] ?></option>
+          <?php endforeach ?>
         </select>
       </div>
       <div class="col-md-6 mb-2">
-        <label class="form-label required">Jumlah</label>
+        <label class="form-label required">Qty</label>
         <input type="number" name="qty" class="form-control" required>
       </div>
       <div class="col-md-6 mb-2">
-        <label class="form-label required">Total</label>
-        <input type="number" class="form-control" name="total_harga" placeholder="Masukkan Total Harga" required>
+        <label for="totalHarga" class="form-label">Total Harga</label>
+        <input type="text" class="form-control" id="totalHarga" value="" readonly>
       </div>
+      <input type="hidden" name="kode_penjualan" value="<?= $data['kode'] ?>">
       <div class="col-md-6 mb-2">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
@@ -39,40 +32,46 @@
         <thead>
           <tr>
             <th>No</th>
-            <th>Id Transaksi</th>
             <th>Nama Barang</th>
-            <th>Nama Member</th>
-            <th>Jumlah</th>
+            <th>Jumlah barang</th>
+            <th>Harga Satuan</th>
             <th>Total Harga</th>
             <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              1
-            </td>
-            <td>
-              B2
-            </td>
-            <td>
-              Baju
-            </td>
-            <td>
-              Ilmi
-            </td>
-            <td>
-              2
-            </td>
-            <td>
-              200.000
-            </td>
-            <td>
-              <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="">Delete</a>
-            </td>
-          </tr>
+          <?php $number = 1;
+          foreach ($data['orders'] as $order) : ?>
+            <tr>
+              <td>
+                <?= $number ?>
+              </td>
+              <td>
+                <?= $order['name_product'] ?>
+              </td>
+              <td>
+                <?= $order['qty'] ?>
+              </td>
+              <td>
+                <?= $order['price'] ?>
+              </td>
+              <td>
+                <?= $order['price'] * $order['qty'] ?>
+              </td>
 
+              <td>
+                <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/transaksi/delete/<?= $order['id_order']; ?>" onclick="return confirm('Apakah Kamu Yakin Menghapus Product <?= $order['name_product']; ?>')">Delete</a>
+              </td>
+            </tr>
+          <?php $number++;
+          endforeach; ?>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" style="text-align: right;">Total Harga:</td>
+            <td id="totalHargaFooter" colspan="2"></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
@@ -83,27 +82,49 @@
       <div class="col-md-6">
         <div class="mb-3">
           <label for="namaMember" class="form-label">Nama Member</label>
-          <input type="text" class="form-control" id="namaMember" placeholder="Masukkan nama member">
+          <select class="form-select" name="id_customer" required>
+            <?php foreach ($data['customers'] as $customer) : ?>
+              <option value='<?= $customer['id_customer'] ?>'><?= $customer['name_customer'] ?></option>
+            <?php endforeach ?>
+          </select>
         </div>
         <div class="mb-3">
-          <label for="totalHarga" class="form-label">Total Harga</label>
-          <input type="text" class="form-control" id="totalHarga" placeholder="Masukkan total harga">
-        </div>
-        <div class="mb-3">
-          <label for="totalBayar" class="form-label">Total Bayar</label>
-          <input type="text" class="form-control" id="totalBayar" placeholder="Masukkan total bayar">
-        </div>
+          <label for="totalHargaPayment" class="form-label">Total Harga</label>
+          <input type="text" class="form-control" id="totalHargaPayment" value="" readonly>
+        </div>        
         <div class="d-grid gap-2">
           <button type="button" class="btn btn-primary" id="btnBayar">Bayar</button>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="kembalian" class="form-label">Kembalian</label>
-          <input type="text" class="form-control" id="kembalian" readonly>
-        </div>
-      </div>
+      
     </div>
   </div>
 
-</div>
+  <script>
+    // Fungsi untuk menghitung total harga
+    function hitungTotalHarga() {
+      var totalHarga = 0;
+      // Loop melalui setiap baris dalam tabel
+      var rows = document.querySelectorAll("tbody tr");
+      rows.forEach(function(row) {
+        var hargaSatuan = parseFloat(row.cells[3].textContent); // Harga satuan
+        var jumlah = parseFloat(row.cells[2].textContent); // Jumlah barang
+        var total = hargaSatuan * jumlah; // Total harga untuk produk ini
+        totalHarga += total; // Menambahkan total harga produk ini ke totalHarga
+      });
+      // Mengatur nilai total harga pada input dengan id totalHarga
+      document.getElementById("totalHarga").value = totalHarga;
+      // Mengatur nilai total harga pada td dengan id totalHargaFooter
+      document.getElementById("totalHargaFooter").textContent = totalHarga;
+      // Mengatur nilai total harga pada input dengan id totalHargaPayment
+      document.getElementById("totalHargaPayment").value = totalHarga;
+    }
+
+    // Panggil fungsi hitungTotalHarga saat halaman dimuat
+    window.onload = hitungTotalHarga;
+
+    // Panggil fungsi hitungTotalHarga saat pengguna mengubah jumlah barang
+    document.querySelectorAll("input[name='qty']").forEach(function(input) {
+      input.addEventListener("change", hitungTotalHarga);
+    });
+  </script>

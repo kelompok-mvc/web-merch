@@ -25,19 +25,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>
-              syifa123
-            </td>
-            <td>
-              syifasukmaa
-            </td>
-            <td>
-              <a style="margin-bottom: 2px;" class="btn btn-success btn-sm py-1 px-2 halUpdate" href="<?= BASEURL; ?>/admin/edit/" data-id="<?= $product['id_product'] ?>">Edit</a>
-              <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/admin/delete/" onclick="return confirm('Apakah Kamu Yakin Menghapus Data')">Delete</a>
-            </td>
-          </tr>
+          <?php $number = 1; foreach($data['admin'] as $admin) : ?>
+            <tr>
+              <td><?= $number?></td>
+              <td>
+                <?= $admin['name_admin']?>
+              </td>
+              <td>
+                <?= $admin['username']?>
+              </td>
+              <td>
+              <a style="margin-bottom: 2px;" class="btn btn-success btn-sm py-1 px-2 halUpdate" href="<?= BASEURL; ?>/admin/edit/<?= $admin['id_admin']; ?>" data-id="<?= $admin['id_admin'] ?>">Edit</a>
+              <a style="margin-bottom: 2px;" class="btn btn-danger btn-sm py-1 px-2" href="<?= BASEURL; ?>/admin/delete/<?= $admin['id_admin']; ?>" onclick="return confirm('Apakah Kamu Yakin Menghapus Admin <?= $admin['name_admin']?>')">Delete</a>
+              </td>
+            </tr>  
+          <?php $number++; endforeach?>          
         </tbody>
       </table>
     </div>

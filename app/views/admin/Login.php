@@ -15,7 +15,7 @@
 <body class="align">
   <div class="grid">
     <h1>Login Admin</h1>
-    <form action="<?= BASEURL . '/login/tryLogin' ?>" method="POST" class="form login">
+    <form action="<?= BASEURL ?>/admin/tryLogin" method="POST" class="form login">
 
       <div class="form__field">
         <label for="login__username"><svg class="icon">

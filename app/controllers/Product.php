@@ -21,18 +21,18 @@ class Product extends Controller
   }
 
   public function update()
-{
+  {
     $_POST['id'] = $_POST['id_product']; // Tambahkan id_product ke $_POST untuk update
     if ($this->model('ProductModel')->updateProduct($_POST) > 0) {
-        Flasher::setFlash('berhasil', 'diperbarui', 'success');
-        header('Location: ' . BASEURL . '/product');
-        exit;
+      Flasher::setFlash('berhasil', 'diperbarui', 'success');
+      header('Location: ' . BASEURL . '/product');
+      exit;
     } else {
-        Flasher::setFlash('gagal', 'diperbarui', 'danger');
-        header('Location: ' . BASEURL . '/product');
-        exit;
+      Flasher::setFlash('gagal', 'diperbarui', 'danger');
+      header('Location: ' . BASEURL . '/product');
+      exit;
     }
-}
+  }
 
 
   public function add()

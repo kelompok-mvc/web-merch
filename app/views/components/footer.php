@@ -151,6 +151,7 @@
 <script src="./vendor/dist/libs/jsvectormap/dist/maps/world.js?1684106062" defer></script>
 <script src="./vendor/dist/libs/jsvectormap/dist/maps/world-merc.js?1684106062" defer></script>
 <!-- Tabler Core -->
+<script src="./js/main.js" type="text/javascript"></script>
 <script src="./vendor/dist/js/tabler.min.js?1684106062" defer></script>
 <script src="./vendor/dist/js/demo.min.js?1684106062" defer></script>
 <script src="<?= BASEURL;?>/js/script.js"></script>
