@@ -52,20 +52,36 @@
       <div class="modal-body">
         <form action="<?= BASEURL; ?>/transaksi/add" method="post">
           <div class=" mb-2">
-            <label class="form-label required">Nama Admin</label>
-            <input type="text" name="admin" class="form-control" placeholder="Masukkan Nama Admin" required>
+            <label class="form-label required">Nama Member</label>
+            <select class="form-select" name="id_member" required>
+              <option value="1">
+                Salman
+              </option>
+              <option value="1">
+                Ilmi
+              </option>
+              <option value="1">
+                Azizi
+              </option>
+            </select>
           </div>
           <div class=" mb-2">
-            <label class="form-label required">Masukkan Nama Member</label>
-            <input type="text" name="id_member" class="form-control" placeholder="Masukkan Nama Member" required>
+            <label class="form-label required">Nama Barang</label>
+            <select class="form-select" name="id_product" required>
+              <option value="1">
+                Baju
+              </option>
+              <option value="1">
+                Celana
+              </option>
+              <option value="1">
+                Jaket
+              </option>
+            </select>
           </div>
           <div class=" mb-2">
-            <label class="form-label required">Waktu</label>
-            <input type="date" name="transaction_date" class="form-control" required>
-          </div>
-          <div class=" mb-2">
-            <label class="form-label required">Total</label>
-            <input type="number" class="form-control" name="total" placeholder="Masukkan Total Harga" required>
+            <label class="form-label required">qty</label>
+            <input type="number" class="form-control" name="qty" placeholder="Masukkan Jumlah Produk" required>
           </div>
       </div>
       <div class="modal-footer">
