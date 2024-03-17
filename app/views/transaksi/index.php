@@ -57,15 +57,15 @@
           </div>
           <div class=" mb-2">
             <label class="form-label required">Masukkan Nama Member</label>
-            <input type="text" name="member" class="form-control" placeholder="Masukkan Nama Member" required>
+            <input type="text" name="id_member" class="form-control" placeholder="Masukkan Nama Member" required>
           </div>
           <div class=" mb-2">
             <label class="form-label required">Waktu</label>
-            <input type="date" name="waktu" class="form-control" required>
+            <input type="date" name="transaction_date" class="form-control" required>
           </div>
           <div class=" mb-2">
             <label class="form-label required">Total</label>
-            <input type="number" class="form-control" name="harga" placeholder="Masukkan Total Harga" required>
+            <input type="number" class="form-control" name="total" placeholder="Masukkan Total Harga" required>
           </div>
       </div>
       <div class="modal-footer">
