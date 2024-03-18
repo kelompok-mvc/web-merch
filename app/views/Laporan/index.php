@@ -21,8 +21,8 @@
                                 <th scope="col">No</th>
                                 <th scope="col">Name Pembeli</th>
                                 <th scope="col">Tanggal Pembelian</th>
-                                <th scope="col">Total Belanja</th>                                
-                                <th scope="col"></th>
+                                <th scope="col">Total Belanja</th>                             
+                                <th scope="col">Nama Admin</th>
                             </tr>
                         </thead>
                         <tbody class="table-tbody">
@@ -33,6 +33,7 @@
                                     <td><?= $row['name_customer']?></td>
                                     <td><?= $row['transaction_date']?></td>
                                     <td>Rp<?= $row['total']?></td>
+                                    <td><?= $row['name_admin']?></td>
                                 </tr>
                             <?php $number++;
                             endforeach ?>

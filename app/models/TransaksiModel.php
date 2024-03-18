@@ -58,9 +58,10 @@ class TransaksiModel
     
     public function addTransaction($data)
     {
-        $query = "INSERT INTO $this->table (kode_penjualan, id_customer, total, transaction_date) VALUES (:kode_penjualan, :id_customer, :total, NOW())";
+        $query = "INSERT INTO $this->table (id_admin, kode_penjualan, id_customer, total, transaction_date) VALUES (:id_admin, :kode_penjualan, :id_customer, :total, NOW())";
 
         $this->db->query($query);        
+        $this->db->bind('id_admin', $data['id_admin']);
         $this->db->bind('kode_penjualan', $data['kode_penjualan']);
         $this->db->bind('id_customer', $data['id_customer']);
         $this->db->bind('total', $data['total']);

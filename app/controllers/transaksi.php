@@ -12,6 +12,7 @@ class Transaksi extends Controller
     
 
     $data['judul'] = 'Transaksi';
+    $data['login'] = $_SESSION['id_admin'];
     $data['product'] = $this->model('TransaksiModel')->getAllProduct();
     $data['orders'] = $this->model('TransaksiModel')->getAllOrderDetail($kode);
     $data['customers'] = $this->model('TransaksiModel')->getAllCustomer();

@@ -97,6 +97,7 @@
             <input type="text" class="form-control" id="totalHargaPayment" name="total" value="" readonly>
           </div>
           <input type="hidden" name="kode_penjualan" value="<?= $data['kode'] ?>">
+          <input type="hidden" name="id_admin" value="<?= $data['login']; ?>">          
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary" id="btnBayar">Bayar</button>
           </div>

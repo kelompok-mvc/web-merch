@@ -42,6 +42,7 @@ class Admin extends Controller
       header("Location:" . BASEURL . "/404");
     } else {
       foreach ($data['login'] as $row) :
+        $_SESSION['id_admin'] = $row['id_admin'];
         $_SESSION['name_admin'] = $row['name_admin'];
         header("Location:" . BASEURL);
       endforeach;
