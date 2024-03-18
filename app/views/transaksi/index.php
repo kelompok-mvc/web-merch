@@ -1,7 +1,10 @@
-<?php
 
-?>
 <div class="">
+  <div class="row">
+    <div class="col-lg-6">
+      <?php Flasher::flash() ?>
+    </div>
+  </div>
   <div class="mb-4">
     <form action="<?= BASEURL; ?>/transaksi/add" method="post" class="row">
       <label class="form-label required"><?= $data['kode'] ?></label>
@@ -97,12 +100,12 @@
             <input type="text" class="form-control" id="totalHargaPayment" name="total" value="" readonly>
           </div>
           <input type="hidden" name="kode_penjualan" value="<?= $data['kode'] ?>">
-          <input type="hidden" name="id_admin" value="<?= $data['login']; ?>">          
+          <input type="hidden" name="id_admin" value="<?= $data['login']; ?>">
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary" id="btnBayar">Bayar</button>
           </div>
         </div>
-  
+
       </div>
     </div>
 

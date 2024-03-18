@@ -36,8 +36,7 @@
                                     <td><?= $row['name_admin']?></td>
                                 </tr>
                             <?php $number++;
-                            endforeach ?>
-                            
+                            endforeach ?>                            
                         </tbody>
                     </table>
                 </div>

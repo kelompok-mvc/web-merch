@@ -26,12 +26,10 @@ class Transaksi extends Controller
   {
     $kode = $_POST['kode_penjualan'];
     
-    if ($this->model('TransaksiModel')->addOrderList($_POST) > 0) {
-      Flasher::setFlash('berhasil', 'ditambahkan', 'success');
+    if ($this->model('TransaksiModel')->addOrderList($_POST) > 0) {      
       header('Location: ' . BASEURL . '/transaksi/' . $kode);
       exit;
-    } else {
-      Flasher::setFlash('gagal', 'ditambahkan', 'danger');
+    } else {      
       header('Location: ' . BASEURL . '/transaksi');
       exit;
     }

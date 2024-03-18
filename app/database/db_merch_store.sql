@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2024 at 07:11 AM
+-- Generation Time: Mar 18, 2024 at 08:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -31,8 +31,18 @@ CREATE TABLE `admin` (
   `id_admin` int(3) NOT NULL,
   `name_admin` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `name_admin`, `username`, `password`, `created_at`, `updated_at`) VALUES
+(3, 'Salman Al-Farisi11', 'admin1', '1231', '2024-03-16 23:25:27', '2024-03-17 11:15:23'),
+(7, 'Syifa', 'syifa123', '123', '2024-03-18 06:19:40', '2024-03-18 06:19:40');
 
 -- --------------------------------------------------------
 
@@ -67,6 +77,14 @@ CREATE TABLE `customer` (
   `address` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `id_membership`, `name_customer`, `address`) VALUES
+(2, 1, 'Salman Al-Farisi', 'Ds.Lohbener, Kec. Lohbener, Kab.Indramayu, Jawa Barat 45252'),
+(3, 2, 'Hafidz Faqih Dinillah', 'Kost Made/Bali, Jalan Tegalega No. 65, RT.1/RW.1, Ds. Tegallega, Kec. Bogor Tengah, Kota Bogor, Jawa');
+
 -- --------------------------------------------------------
 
 --
@@ -79,6 +97,14 @@ CREATE TABLE `membership` (
   `discon` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `membership`
+--
+
+INSERT INTO `membership` (`id_membership`, `type`, `discon`) VALUES
+(1, 'gold', 10),
+(2, 'platinum', 20);
+
 -- --------------------------------------------------------
 
 --
@@ -87,9 +113,9 @@ CREATE TABLE `membership` (
 
 CREATE TABLE `order_detail` (
   `id_order` int(5) NOT NULL,
-  `id_transaction` int(5) NOT NULL,
   `id_product` int(5) NOT NULL,
-  `qty` int(10) NOT NULL
+  `qty` int(10) NOT NULL,
+  `kode_penjualan` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -112,10 +138,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_product`, `id_category`, `name_product`, `description`, `price`, `stock`) VALUES
-(1, 2, 'nct 127 the link lanyard', 'cocok untuk konseran2', 505000, 109),
-(2, 1, 'sasa', 'Video dokumenter \"Inovasi Pariwisata: Pariwisata Desa Mulyaharja Mendorong Ketahanan Pangan dan Energi\" mengisahkan transformasi gemilang Kampung Agro Eduwisata Desa Mulyaharja di Kota Bogor. Dari lahan pertanian biasa, kampung ini berkembang menjadi destinasi wisata edukasi pertanian berkelanjutan.  Melalui scene-scene yang menggambarkan sejarah, edukasi pertanian, lingkungan berkelanjutan, kemitraan komunitas, pelestarian budaya, dan partisipasi masyarakat, video ini memperlihatkan betapa Desa Mulyaharja bukan hanya destinasi wisata, tetapi juga pusat inovasi pertanian organik yang modern.  Keunggulan desa tercermin dalam pemandangan alam yang indah, udara segar, dan penggunaan teknologi canggih dalam pertanian organik. Prestasi tokoh seperti Muhamad Aneng dan prestasi desa dalam lomba inovasi kampung tematik menambahkan dimensi pengakuan terhadap upaya pelestarian lingkungan dan pengembangan pariwisata berkelanjutan.  Video ini mengajak penonton untuk memahami bagaimana pariwisata berkelanjutan dapat menja', 100000, 12),
-(3, 1, 'Hafidz Faqih Dinillah', 'aku sayang kamu', 1000, 32),
-(5, 3, 'Salman Al Farisi1', 'wqeewqxad', 12344, 34);
+(1, 2, 'nct 127 the link lanyard1', 'cocok untuk konseran222', 505000, 109);
 
 -- --------------------------------------------------------
 
@@ -125,9 +148,11 @@ INSERT INTO `product` (`id_product`, `id_category`, `name_product`, `description
 
 CREATE TABLE `transaction` (
   `id_transaction` int(5) NOT NULL,
+  `id_admin` int(5) NOT NULL,
+  `kode_penjualan` varchar(20) NOT NULL,
   `id_customer` int(5) NOT NULL,
-  `total` int(11) DEFAULT NULL,
-  `transaction_date` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `total` int(11) NOT NULL,
+  `transaction_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -163,9 +188,8 @@ ALTER TABLE `membership`
 -- Indexes for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  ADD PRIMARY KEY (`id_order`),
-  ADD KEY `id_product` (`id_product`),
-  ADD KEY `id_transaction` (`id_transaction`);
+  ADD PRIMARY KEY (`id_order`) USING BTREE,
+  ADD KEY `id_product` (`id_product`);
 
 --
 -- Indexes for table `product`
@@ -178,7 +202,9 @@ ALTER TABLE `product`
 -- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`id_transaction`);
+  ADD PRIMARY KEY (`id_transaction`) USING BTREE,
+  ADD KEY `id_customer` (`id_customer`),
+  ADD KEY `id_admin` (`id_admin`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -188,7 +214,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_admin` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -200,31 +226,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_customer` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `membership`
 --
 ALTER TABLE `membership`
-  MODIFY `id_membership` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_membership` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id_order` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_product` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_product` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id_transaction` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaction` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -240,14 +266,20 @@ ALTER TABLE `customer`
 -- Constraints for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  ADD CONSTRAINT `order_detail_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
-  ADD CONSTRAINT `order_detail_ibfk_2` FOREIGN KEY (`id_transaction`) REFERENCES `transaction` (`id_transaction`);
+  ADD CONSTRAINT `order_detail_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`);
 
 --
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`);
+
+--
+-- Constraints for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id_customer`),
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
