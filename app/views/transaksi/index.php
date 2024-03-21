@@ -1,4 +1,3 @@
-
 <div class="">
   <div class="row">
     <div class="col-lg-6">
@@ -74,7 +73,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" style="text-align: right;">Total Harga:</td>
+            <td colspan="4" style="text-align: right;">Harga Jual:</td>
             <td id="totalHargaFooter" colspan="2"></td>
           </tr>
         </tfoot>
@@ -91,12 +90,12 @@
             <label for="namaMember" class="form-label">Nama Member</label>
             <select class="form-select" name="id_customer" required>
               <?php foreach ($data['customers'] as $customer) : ?>
-                <option value='<?= $customer['id_customer'] ?>'><?= $customer['name_customer'] ?></option>
+                <option value='<?= $customer['id_customer'] ?>' data-discount='<?= $customer['discon'] ?>'><?= $customer['name_customer'] ?></option>
               <?php endforeach ?>
             </select>
           </div>
           <div class="mb-3">
-            <label for="totalHargaPayment" class="form-label">Total Harga</label>
+            <label for="totalHargaPayment" class="form-label">Total Harga </label>
             <input type="text" class="form-control" id="totalHargaPayment" name="total" value="" readonly>
           </div>
           <input type="hidden" name="kode_penjualan" value="<?= $data['kode'] ?>">
@@ -115,6 +114,7 @@
     // Fungsi untuk menghitung total harga
     function hitungTotalHarga() {
       var totalHarga = 0;
+      var diskon = parseFloat(document.querySelector("select[name='id_customer']").selectedOptions[0].dataset.discount);
       // Loop melalui setiap baris dalam tabel
       var rows = document.querySelectorAll("tbody tr");
       rows.forEach(function(row) {
@@ -123,12 +123,14 @@
         var total = hargaSatuan * jumlah; // Total harga untuk produk ini
         totalHarga += total; // Menambahkan total harga produk ini ke totalHarga
       });
+
+      var totalSetelahDiskon = totalHarga * ((100 - diskon) / 100);
       // Mengatur nilai total harga pada input dengan id totalHarga
       document.getElementById("totalHarga").value = totalHarga;
       // Mengatur nilai total harga pada td dengan id totalHargaFooter
       document.getElementById("totalHargaFooter").textContent = totalHarga;
       // Mengatur nilai total harga pada input dengan id totalHargaPayment
-      document.getElementById("totalHargaPayment").value = totalHarga;
+      document.getElementById("totalHargaPayment").value = totalSetelahDiskon;
     }
 
     // Panggil fungsi hitungTotalHarga saat halaman dimuat
@@ -138,6 +140,7 @@
     document.querySelectorAll("input[name='qty']").forEach(function(input) {
       input.addEventListener("change", hitungTotalHarga);
     });
+    document.querySelector("select[name='id_customer']").addEventListener("change", hitungTotalHarga);
   </script>
   <script>
     function deleteOrder(orderId, kodePenjualan, productName) {
