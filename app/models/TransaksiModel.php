@@ -34,14 +34,12 @@ class TransaksiModel
         $this->db->query('SELECT * FROM ' . $this->table4 . ' INNER JOIN customer ON membership.id_membership = customer.id_membership');
         return $this->db->resultSet();
     }
-
     public function getOrderById($id)
     {
         $this->db->query('SELECT * FROM ' . $this->table2 . ' WHERE id_order = :id');
         $this->db->bind('id', $id);
         return $this->db->single();
     }
-
     public function addOrderList($data)
     {
         $query = "INSERT INTO $this->table2 (id_product, qty, kode_penjualan) VALUES (:id_product, :qty, :kode_penjualan)";
@@ -55,12 +53,25 @@ class TransaksiModel
 
         return $this->db->rowCount();
     }
-    
     public function addTransaction($data)
     {
+        $orderDetails = $this->getAllOrderDetail($data['kode_penjualan']);
+
+        foreach ($orderDetails as $orderDetail) {
+            $idProduct = $orderDetail['id_product'];
+            $qty = $orderDetail['qty'];
+
+            $product = $this->getProductById($idProduct);
+            $currentStock = $product['stock'];
+
+            $updatedStock = $currentStock - $qty;
+
+            $this->updateProductStock($idProduct, $updatedStock);
+        }
+
         $query = "INSERT INTO $this->table (id_admin, kode_penjualan, id_customer, total, transaction_date) VALUES (:id_admin, :kode_penjualan, :id_customer, :total, NOW())";
 
-        $this->db->query($query);        
+        $this->db->query($query);
         $this->db->bind('id_admin', $data['id_admin']);
         $this->db->bind('kode_penjualan', $data['kode_penjualan']);
         $this->db->bind('id_customer', $data['id_customer']);
@@ -70,7 +81,24 @@ class TransaksiModel
 
         return $this->db->rowCount();
     }
+    public function getProductById($id)
+    {
+        $this->db->query('SELECT * FROM ' . $this->table3 . ' WHERE id_product = :id');
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
+    public function updateProductStock($id, $stock)
+    {
+        $query = "UPDATE $this->table3 SET stock = :stock WHERE id_product = :id";
 
+        $this->db->query($query);
+        $this->db->bind('stock', $stock);
+        $this->db->bind('id', $id);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
     public function getUser($username, $password)
     {
         $this->db->query('SELECT * FROM ' . $this->table . ' WHERE username = :username AND password = :password');
@@ -78,7 +106,6 @@ class TransaksiModel
         $this->db->bind('password', $password);
         return $this->db->resultSet();
     }
-
     public function updateAdmin($data)
     {
         $query = "UPDATE $this->table SET name_admin = :name_admin, username = :username, password = :password WHERE id_admin = :id_admin";
@@ -86,7 +113,7 @@ class TransaksiModel
         $this->db->query($query);
         $this->db->bind('name_admin', $data['name_admin']);
         $this->db->bind('username', $data['username']);
-        $this->db->bind('password', $data['password']);  
+        $this->db->bind('password', $data['password']);
         $this->db->bind('id_admin', $data['id_admin']);      // Menambahkan binding untuk id
 
         $this->db->execute();
